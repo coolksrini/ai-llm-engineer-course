@@ -1,3 +1,7 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import os
 from dotenv import load_dotenv
 import chromadb
@@ -14,7 +18,7 @@ openai_ef = embedding_functions.OpenAIEmbeddingFunction(
 
 
 # Initialize the Chroma client with persistence
-chroma_client = chromadb.PersistentClient(path="./db/chroma_persistent_storage")
+chroma_client = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 collection_name = "document_qa_collection"
 collection = chroma_client.get_or_create_collection(
     name=collection_name, embedding_function=openai_ef

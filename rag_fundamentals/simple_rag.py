@@ -1,3 +1,7 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import csv
 import pandas as pd
 import chromadb
@@ -136,7 +140,7 @@ def load_csv():
 
 
 def setup_chromadb(documents, embedding_model):
-    client = chromadb.Client()
+    client = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 
     try:
         client.delete_collection("space_facts")

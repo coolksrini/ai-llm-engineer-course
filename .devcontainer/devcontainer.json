@@ -18,17 +18,9 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip3 install --user -r requirements.txt",
 
-	// Configure tool-specific properties.
-	 "customizations": {
-		 "vscode": {
-			 "extensions": [
-				 "ms-python.python",
-				 "ms-toolsai.jupyter",
-				 "ms-python.vscode-pylance"
-			 ],
-			"workspaceFolder": "/home/ubuntu/workspace/srinivas/ai-llm-engineer-course"
-		}
-	}
+	"postCreateCommand": "curl -fsSL https://ollama.com/install.sh | sh && pip install -r requirements.txt",
+	"postStartCommand": "(ollama serve & ); sleep 10; ollama pull llama3.2; ollama pull llava; ollama pull nomic-embed-text;"
+
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"

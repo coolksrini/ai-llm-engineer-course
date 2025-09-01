@@ -1,3 +1,7 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import chromadb
 import os
 from dotenv import load_dotenv
@@ -12,7 +16,7 @@ default_ef = embedding_functions.DefaultEmbeddingFunction()
 openai_ef = embedding_functions.OpenAIEmbeddingFunction(
     api_key=openai_api_key, model_name="text-embedding-3-small"
 )
-croma_client = chromadb.PersistentClient(path="./db/chroma_persist")
+croma_client = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 
 collection = croma_client.get_or_create_collection(
     "my_story",

@@ -1,3 +1,7 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import streamlit as st
 import chromadb
 from chromadb.utils import embedding_functions
@@ -117,7 +121,7 @@ class SimpleRAGSystem:
         self.llm_model = llm_model
 
         # Initialize ChromaDB
-        self.db = chromadb.PersistentClient(path="./chroma_db")
+        self.db = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 
         # Setup embedding function based on model
         self.setup_embedding_function()

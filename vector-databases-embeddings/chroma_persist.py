@@ -1,9 +1,13 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import chromadb
 
 from chromadb.utils import embedding_functions
 
 default_ef = embedding_functions.DefaultEmbeddingFunction()
-croma_client = chromadb.PersistentClient(path="./db/chroma_persist")
+croma_client = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 
 collection = croma_client.get_or_create_collection(
     "my_story", embedding_function=default_ef

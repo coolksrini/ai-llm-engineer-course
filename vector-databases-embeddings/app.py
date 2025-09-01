@@ -1,6 +1,13 @@
-import chromadb
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-chroma_client = chromadb.Client()
+import chromadb
+from dotenv import load_dotenv
+
+load_dotenv()
+
+chroma_client = chromadb.HttpClient(os.getenv("CHROMA_HOST"), int(os.getenv("CHROMA_PORT")))
 from chromadb.utils import embedding_functions
 
 default_ef = embedding_functions.DefaultEmbeddingFunction()

@@ -1,6 +1,7 @@
 openai 
 torch
 transformers
+pysqlite3
 chromadb
 streamlit
 pypdf2
